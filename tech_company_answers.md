@@ -89,36 +89,47 @@ SELECT employee_name FROM employees
 WHERE NOT job_title='SALESMAN';
 ``` 
 
-5. List the names of all clerks together with their salary with a deduction of 10%. ```sql
-
-
+5. List the names of all clerks together with their salary with a deduction of 10%.  
+```sql
+SELECT employee_name, (salary*0.9) FROM employees
+WHERE job_title='CLERK';
 ```
+
 6. Find the name of employees hired before May 1981.
 ```sql
-
-
+SELECT employee_name FROM employees
+WHERE hire_date < '1981-05-01';
 ```
+
 7. List employees sorted by salary in descending order (i.e. highest salary first).
 ```sql
-
-
+SELECT employee_name, salary FROM employees
+ORDER BY salary DESC;
 ```
+
 8. List departments sorted by location.
 ```sql
-
-
+SELECT department_name, office_location FROM departments
+ORDER BY office_location;
 ```
+
 9. Find name of the department located in New York.
 ```sql
-
-
+SELECT department_name FROM departments
+WHERE office_location='NEW YORK';
 ```
+
 10. You have proven your worth at the company. Your colleague comes to you trying to remember `what's-his-name`. It starts with a `J` and ends with `S`. Can you help her?
 ```sql
-
-
+SELECT employee_name FROM employees
+WHERE employee_name LIKE 'J%S';
 ```
+
 11. Maybe that wasn't helpful. "Oh yeah, I remember now!" they say and tell you that he is a manager.
+```sql
+SELECT employee_name FROM employees
+WHERE employee_name LIKE 'J%S' AND job_title='MANAGER';
+```
 
 12. How many employees are there in each department?
 
@@ -126,6 +137,15 @@ WHERE NOT job_title='SALESMAN';
   <summary>Second Hint. Don't click unless absolutely stuck.</summary>
    Use GROUP BY.
 </details>
+
+```sql
+SELECT d.department_name,
+  COUNT(e.employee_number)
+FROM departments d
+  LEFT JOIN employees e
+  ON d.department_number = e.department_number
+GROUP BY d.department_name;
+```
 
 
 ---
@@ -137,20 +157,80 @@ WHERE NOT job_title='SALESMAN';
 Use `MIN`, `MAX`, `AVG`, `SUM`, `ORDER BY`, `BETWEEN` and more.
 
 If you in this task manage to solve one of the next assignments, then pat yourself on the back! You are a valued employee at tech company. 
+```sql
+SELECT employee_name AS longest_hired, hire_date FROM employees
+WHERE hire_date = (SELECT MIN(hire_date) FROM employees);  
+```
+
+```sql
+SELECT MAX(salary) AS highest_salary FROM employees;
+```
+
+```sql
+SELECT ROUND(AVG(salary)) AS average_salary FROM employees;
+```
+
+```sql
+SELECT SUM(salary) AS monthly_salary_expense_total FROM employees;
+```
+
+```sql
+SELECT job_title, salary FROM employees
+ORDER BY job_title, salary DESC;
+```
+
+```sql
+SELECT employee_name FROM employees
+WHERE employee_name BETWEEN 'K' AND 'Z'
+ORDER BY employee_name;
+```
 
 2. List the number of employees.
+```sql
+SELECT COUNT(employee_number) AS number_of_employees FROM employees;
+```
 
 3. List the sum of all salaries (excluding commission).
-
+Done in 1.  
+  
 4. List the average salary for employees in department 20.
+```sql
+SELECT ROUND(AVG(salary)) AS avarage_salary FROM employees
+WHERE department_number = 20;
+```
 
 5. List the unique job titles in the company.
+```sql
+SELECT DISTINCT job_title FROM employees
+ORDER BY job_title;
+```
 
 6. List the number of employees in each department.
+```sql
+SELECT departments.department_name, COUNT(employees.department_number) AS number_of_employees
+FROM departments
+LEFT JOIN employees
+ON departments.department_number = employees.department_number
+GROUP BY departments.department_name
+ORDER BY departments.department_name;
+```
 
 7. List in decreasing order the maximum salary in each department together with the department number.
+```sql
+SELECT departments.department_name, departments.department_number,
+       MAX(employees.salary) AS department_max_salary
+FROM departments
+INNER JOIN employees
+ON departments.department_number = employees.department_number
+GROUP BY departments.department_number
+ORDER BY department_max_salary DESC;
+```
 
 8. List total sum of salary and commission for all employees.
+```sql
+SELECT SUM(salary) + SUM(commission) FROM employees;
+```
+
 
 --- 
 
