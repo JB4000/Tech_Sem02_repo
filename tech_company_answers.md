@@ -73,22 +73,23 @@ WHERE employee_name='MARTIN';
 
 2. Find the employee(s) with a salary greater than 1500.
 ```sql
-
-
+SELECT employee_name FROM employees
+WHERE salary > 1500;
 ```
 
 3. List the names of salesmen that earn more than 1300.
 ```sql
-
-
+SELECT employee_name FROM employees
+WHERE (job_title='SALESMAN') AND (salary > 1300);
 ```
+
 4. List the names of employees that are not salesmen.
 ```sql
+SELECT employee_name FROM employees
+WHERE NOT job_title='SALESMAN';
+``` 
 
-
-```
-5. List the names of all clerks together with their salary with a deduction of 10%.
-```sql
+5. List the names of all clerks together with their salary with a deduction of 10%. ```sql
 
 
 ```
