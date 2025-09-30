@@ -341,11 +341,24 @@ FROM employees
 GROUP BY department_number;
 ```
 
-LAV DENNE OG VIDERE
-
+```sql
+SELECT departments.department_name, COUNT(employees.department_number) as number_of_employees
+FROM employees
+JOIN departments
+ON employees.department_number = departments.department_number
+GROUP BY departments.department_name
+HAVING number_of_employees > 3
+ORDER BY tech_company.departments.department_name;
+```
+  
 
 9. Subquery time! Select the name and salary of employees whose salary is above average: `WHERE salary > (SELECT AVG(salary) FROM employees)`
 
+```sql
+SELECT employees.employee_name, salary FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees)
+ORDER BY salary DESC;
+```
 
 ---
 
