@@ -319,7 +319,8 @@ JOIN employees manager
 ORDER BY employee.employee_name;
 ```  
 
->This query INNER JOIN data from the same table without any foreign keys to other tables  
+>This query JOIN data from the same table without any foreign keys to other tables
+>It is a SELF JOIN    
 >It joins an employee with the employee that has the employee_number that matches manager_id of the initial employee  
 >Since it is an INNER JOIN the employee King will not be part of the result because King has a null value in manager_id  
 
@@ -335,20 +336,15 @@ ORDER BY employee.employee_name;
 
 8. Use the `HAVING` keyword (feel free to look it up) to show the departments with more than 3 employees. The `as number_of_employees` is so that you can reference the value later on in the query:
 
-```sql
-SELECT employees.department_number, COUNT(employees.department_number) as number_of_employees
-FROM employees
-GROUP BY department_number;
-```
 
 ```sql
 SELECT departments.department_name, COUNT(employees.department_number) as number_of_employees
 FROM employees
-JOIN departments
-ON employees.department_number = departments.department_number
+         JOIN departments
+              ON employees.department_number = departments.department_number
 GROUP BY departments.department_name
 HAVING number_of_employees > 3
-ORDER BY tech_company.departments.department_name;
+ORDER BY departments.department_name;
 ```
   
 
@@ -366,6 +362,33 @@ ORDER BY salary DESC;
 
 1. Create a new table called  `leaders` and insert rows into it.
 
+```sql
+CREATE TABLE IF NOT EXISTS leaders
+(
+    leader_number     INTEGER,
+    leader_name       VARCHAR(30),
+    salary            DECIMAL(10, 2),
+    department_number INTEGER,
+    PRIMARY KEY (leader_number),
+    FOREIGN KEY (department_number) REFERENCES departments (department_number)
+);
+```
+
+```sql
+INSERT INTO leaders (leader_number, leader_name, salary, department_number)
+VALUES (100, 'HANK', 5600, 10);
+
+INSERT INTO leaders (leader_number, leader_name, salary, department_number)
+VALUES (110, 'BJERK', 4900, 10);
+
+INSERT INTO leaders (leader_number, leader_name, salary, department_number)
+VALUES (120, 'DOLLY', 7800, 30);
+
+INSERT INTO leaders (leader_number, leader_name, salary, department_number)
+VALUES (130, 'JONBOE', 9900, 20);
+```
+
+
 2. Create a new table called `employees_leaders` that should link the `employees` and `leaders` tables. This is called a join table. It will enable you to create a many-to-many relationship between employees and leaders (a leader can manage multiple employees and an employee can have multiple leaders). Try to figure it out yourself, otherwise here is the solution:
 
 <details>
@@ -381,6 +404,41 @@ CREATE TABLE employees_leaders (
 ```
 </details>
 
+```sql
+CREATE TABLE IF NOT EXISTS employees_leaders
+(
+    employee_number INTEGER,
+    leader_number   INTEGER,
+    PRIMARY KEY (employee_number, leader_number),
+    FOREIGN KEY (employee_number) REFERENCES employees (employee_number),
+    FOREIGN KEY (leader_number) REFERENCES leaders (leader_number)
+);
+```
+
 3. Create rows in `employees_leaders` that link employees to their respective leaders.
 
+```sql
+INSERT INTO employees_leaders (employee_number, leader_number)
+VALUES(7369, 110),
+      (7369, 100),
+      (7782, 100),
+      (7782, 130),
+      (7566, 100),
+      (7566, 130),
+      (7876, 110),
+      (7902, 110),
+      (7902, 120);
+```
+
 4. Create a many-to-many query between employees and leaders. It requires two JOIN statements. First you select from `employees`, then you join with `employees_leaders`, and finally you join again with `leaders`.
+
+```sql
+SELECT employees.employee_name, leaders.leader_name
+FROM employees
+JOIN employees_leaders
+ON employees.employee_number = employees_leaders.employee_number
+JOIN leaders
+ON employees_leaders.leader_number = leaders.leader_number
+ORDER BY employees.employee_name;
+```
+
