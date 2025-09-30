@@ -240,11 +240,38 @@ SELECT SUM(salary) + SUM(commission) FROM employees;
 
 <img src="./assets/inner_join.png" alt="Inner Join">
 
+```sql
+SELECT *
+FROM employees
+JOIN departments
+ON employees.department_number = departments.department_number;
+```
+
 2. Continue from the last task. Show two columns. The `employee_name` and their corresponding `department_name`. Oh, and can you sort them alphabetically (A-Z)?
+```sql
+SELECT employees.employee_name, departments.department_name
+FROM employees
+JOIN departments
+ON employees.department_number = departments.department_number
+ORDER BY employees.employee_name;
+```
 
 3. Now is the time to make a LEFT JOIN. Let's look at `employee_name` and `department_name` only. There is one more person this time who didn't show in the previous query. Who is it and why?
 
 <img src="./assets/left_join.png" alt="Left Join">
+
+```sql
+SELECT employees.employee_name, departments.department_name
+FROM employees
+LEFT JOIN departments
+ON employees.department_number = departments.department_number
+ORDER BY employees.employee_name;
+```
+>The employee named King didn't show with the INNER JOIN because KING has a foreign key to departments with the value null  
+>  
+>ON employees.department_number = departments.department_number
+>- INNER JOIN demands identical values in this expression - null values are not accepted  
+  
 
 4. Consider this query:
 
