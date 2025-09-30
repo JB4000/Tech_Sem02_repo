@@ -295,14 +295,16 @@ One department is missing. Which one and why? (Look in the database).
 5. To get the missing department change the previous query to use a RIGHT JOIN.
 
 <img src="./assets/right_join.png" alt="Right Join">
+  
 ```sql
 SELECT departments.department_name, COUNT(employees.employee_number)
 FROM employees
 RIGHT JOIN departments
     ON departments.department_number = employees.department_number
 GROUP BY department_name;
-
 ```
+  
+
 >With RIGHT JOIN all rows in RIGHT, in this case departments, will be included  
 >even if they are not related to a row in employees  
 
