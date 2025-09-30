@@ -285,9 +285,27 @@ GROUP BY department_name;
 
 One department is missing. Which one and why? (Look in the database).
 
+>Operations department is missing  
+>because no employee has the value for that department in their coloumn for department_number.  
+>  
+>The query uses INNER JOIN  
+>ON departments.department_number = employees.department_number  
+>-  INNER JOIN demands identical values in this expression - null values are not accepted  
+  
 5. To get the missing department change the previous query to use a RIGHT JOIN.
 
 <img src="./assets/right_join.png" alt="Right Join">
+```sql
+SELECT departments.department_name, COUNT(employees.employee_number)
+FROM employees
+RIGHT JOIN departments
+    ON departments.department_number = employees.department_number
+GROUP BY department_name;
+
+```
+>With RIGHT JOIN all rows in RIGHT, in this case departments, will be included  
+>even if they are not related to a row in employees  
+
 
 6. `SCOTT` sends you this query and asks you to run it. In order to assess whether it is information that `SCOTT` is privy to, you must first understand it. Describe in technical terms what this query does:
 
@@ -298,8 +316,19 @@ JOIN employees manager
     ON employee.manager_id = manager.employee_number
 ORDER BY employee.employee_name;
 ```
+>This query INNER JOIN data from the same table without any foreign keys to other tables  
+>It joins an employee with the employee that has the employee_number that matches manager_id of the initial employee  
+>Since it is an INNER JOIN the employee King will not be part of the result because King has a null value in manager_id  
+
 
 7. Get two columns: employees and their managers.
+```sql
+SELECT employee.employee_name AS employee, manager.employee_name AS employees_manager
+FROM employees employee
+JOIN employees manager
+ON employee.manager_id = manager.employee_number
+ORDER BY employee.employee_name;
+```
 
 8. Use the `HAVING` keyword (feel free to look it up) to show the departments with more than 3 employees. The `as number_of_employees` is so that you can reference the value later on in the query:
 
@@ -308,6 +337,9 @@ SELECT employees.department_number, COUNT(employees.department_number) as number
 FROM employees
 GROUP BY department_number;
 ```
+
+LAV DENNE OG VIDERE
+
 
 9. Subquery time! Select the name and salary of employees whose salary is above average: `WHERE salary > (SELECT AVG(salary) FROM employees)`
 
