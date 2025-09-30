@@ -315,7 +315,8 @@ FROM employees employee
 JOIN employees manager
     ON employee.manager_id = manager.employee_number
 ORDER BY employee.employee_name;
-```
+```  
+
 >This query INNER JOIN data from the same table without any foreign keys to other tables  
 >It joins an employee with the employee that has the employee_number that matches manager_id of the initial employee  
 >Since it is an INNER JOIN the employee King will not be part of the result because King has a null value in manager_id  
