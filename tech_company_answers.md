@@ -1,3 +1,9 @@
+# Obligatorisk Opgave Tech Semester 2
+>**Navn:** Janus Birch
+>**Hold:** F25C  
+>  
+>Jeg har valgt at besvare opgaven ved at indsætte mine svar i den oprindelige opgavebeskrivelse
+  
 # Tech Company
 
 **Deadline**: This is mandatory I and the deadline is in Teamsx§. 
