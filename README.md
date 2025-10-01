@@ -1,8 +1,8 @@
-# This repository contains the turned in answer to the following assignment:
->## **Assignment:**  
+## This repository contains the turned in answer to the following assignment:
+>### **Assignment:**  
 >Tech Company  
 >  
->## **File:**  
+>### **File:**  
 >tech_company_answers.md  
   
   
